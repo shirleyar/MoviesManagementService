@@ -1,0 +1,26 @@
+{
+  "name": "moviesmanagementservice",
+  "version": "1.0.0",
+  "description": "RESTful API. Manages movies that the user watched, saves history, returns movies recommendations.",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shirleyar/MoviesManagementService.git"
+  },
+  "author": "Shirley Arusi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shirleyar/MoviesManagementService/issues"
+  },
+  "homepage": "https://github.com/shirleyar/MoviesManagementService#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "bunyan": "^1.8.12",
+    "express": "^4.16.2",
+    "lodash": "^4.17.4",
+    "mysql": "^2.15.0"
+  }
+}
