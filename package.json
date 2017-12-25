@@ -17,10 +17,20 @@
   },
   "homepage": "https://github.com/shirleyar/MoviesManagementService#readme",
   "dependencies": {
+    "all-subsets": "^1.0.0",
     "body-parser": "^1.18.2",
     "bunyan": "^1.8.12",
+    "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.2",
+    "imdb-api": "^3.1.2",
+    "imdb-list": "^1.0.1",
+    "imdb-top250-node": "^1.0.1",
+    "knex": "^0.14.2",
     "lodash": "^4.17.4",
-    "mysql": "^2.15.0"
+    "mysql": "^2.15.0",
+    "request": "^2.83.0",
+    "serverless": "^1.25.0",
+    "sqlite": "^2.9.0",
+    "webtask-tools": "^3.2.0"
   }
 }
