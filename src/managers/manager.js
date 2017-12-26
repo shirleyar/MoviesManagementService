@@ -22,27 +22,24 @@ function insertOrUpdateWatchedMovie(name, year, user_rating) {
 }
 
 function getAllWatchedMovies() {
-    let movies =[];
-    let promiseArray =[];
     return watchedMovieModel.getAllWatchedMovies()
         .then(watchedMovies => {
-            watchedMovies.forEach(watchedMovie=>{
-               promiseArray.push(movieModel(watchedMovie))
-            });
-            return Promise.all(promiseArray)
-        }).then(results=>{
-                    console.log(results);
-                })
-                .catch(error => {
-                    logger.error("Error occurred while getting all watched movies: %j", error);
-                    return Promise.reject(errorBuilder(500, "Internal Error", "Error while getting all watched movies"))
-                });
-        }
+            return Promise.all(watchedMovies.map(function (movie) {
+                return movieModel(movie);
+            }))
+        }).then(results => {
+            return Promise.resolve(results);
+        })
+        .catch(error => {
+            logger.error("Error occurred while getting all watched movies: %j", error);
+            return Promise.reject(errorBuilder(500, "Internal Error", "Error while getting all watched movies"))
+        });
+}
 
 function getWatchedMovie(name, year) {
     return watchedMovieModel.getMovie(name, year)
         .then(watchedMovie => {
-            return movieModel(watchedMovie.name, watchedMovie.year, watchedMovie.user_rating, watchedMovie.times_watched, watchedMovie.date_last_watched)
+            return movieModel(watchedMovie[0])
         }).catch(error => {
             logger.error("Error occurred while getting movie by name '%s' and year %s: %j", name, year, error);
             return Promise.reject(errorBuilder(500, "Internal Error", "Error while getting watched movie '%s' of year %s", name, year));

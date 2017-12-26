@@ -22,8 +22,7 @@ function getAllWatchedMovies() {
 
 
 function addOrUpdateMovie(name, year, user_rating) {
-    let today = new Date();// TODO:fix
-    return mySqlConnector.insertOrUpdateMovie (name, year, user_rating, today)
+    return mySqlConnector.insertOrUpdateMovie (name, year, user_rating)
         .catch(error => {
             logger.error("Error occurred while inserting or updating movie: %s", error);
             return Promise.reject(error);

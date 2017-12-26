@@ -12,16 +12,14 @@ app.use(bodyParser.json());
 
 mysqlConnector.connect()
     .then(() => {
-        app.get("a", function (req, res) {
-           res.send("yes");
-        });
-        app.get("/movie/:movieName/year/:year", (req,res)=> controller.movie_get_by_name_year(req, res));
+        app.get("/movie/:movieName/year/:year", (req, res) => controller.movie_get_by_name_year(req, res));
 
-        app.put("/movie",  (req,res)=>controller.movie_put(req, res));
+        //removed endoint due to limitations
+        // app.put("/movie", (req, res) => controller.movie_put(req, res));
 
-        app.get("/movies", (req,res)=> controller.movie_get_all_watched(req, res));
+        app.get("/movies", (req, res) => controller.movie_get_all_watched(req, res));
 
-        app.get("/movie/:movieName/year/:year/recommendation",  (req,res)=>controller.movie_get_recommendation(req, res));
+        app.get("/movie/:movieName/year/:year/recommendation", (req, res) => controller.movie_get_recommendation(req, res));
 
         // should add here a no method and wrong path handlers
 
@@ -30,7 +28,7 @@ mysqlConnector.connect()
     logger.error("Error during initialization: %j", error);
 });
 
-app.listen(3000);
+// app.listen(3000);
 
-// module.exports = Webtask.fromExpress(app);
-module.exports = app;
+module.exports = Webtask.fromExpress(app);
+// module.exports = app;
