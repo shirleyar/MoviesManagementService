@@ -3,9 +3,7 @@
 const mysql = require('mysql'),
     queries = require('../helpers/mysql-queries'),
     constants = require('../helpers/consts'),
-    format = require('util').format(),
-    logger = require('../helpers/logger'),
-    _ = require('lodash');
+    logger = require('../helpers/logger');
 
 let connection;
 
@@ -16,31 +14,54 @@ function createConnection() {
         password: constants.MYSQL_PASSWORD,
         database: constants.MYSQL_DATABASE,
         timezone: 'local',
-        dateStrings:true
+        dateStrings: true
     });
 }
 
 function connect() {
-    connection.connect(function (err) {
-        if (err) {
-            let errorMsg = format('Failed connecting to DB: ', err.toString());
-            logger.error(errorMsg);
-            throw new Error(format(errorMsg));
-        }
+    try {
+        createConnection();
+        connection.connect();
         logger.info("MYSQL CONNECTED!");
-    });
+
+        return Promise.resolve();
+    } catch (error) {
+        logger.error('Failed connecting to MySql: %j', error);
+        return Promise.reject(error);
+    }
 }
 
-function getAllWatched(){}
+function getAllMovies() {
+    return new Promise((resolve, reject) => {
+        return connection.query(queries.SELECT_ALL, (error, results, fields) => {
+            if (error) {
+                logger.error('Error while querying DB: %j', error);
+                reject(error);
+            } else {
+                resolve(results);
+            }
+        })
+    })
+}
+
+function getMovie(name, year) {
+    let prepared = mysql.format(queries.SELECT_MOVIE, [name, year]);
+    return Promise.resolve(connection.query(prepared, (error, results, fields) => handleOutcome(error, results, fields)))
+}
+
+function insertOrUpdateMovie(name, year, user_rating, today) {
+    let prepared = connection.query(queries.INSERT_UPDATE, [name, year, user_rating, 1, today, user_rating, today]);
+    return connection.query(prepared, null, (error, results, fields) => handleOutcome(error, results, fields));
+}
+
+function handleOutcome(error, results, fields) {
+
+}
 
 
-app.get("/", function (req, res) {
-    connection.query('SELECT * from sql11212380.Top_250_Movies LIMIT 2', function (err, rows, fields) {
-        connection.end();
-        if (!err)
-            res.json({solution: rows.toString()});
-        else
-            res.json({error: "err"});
-    });
-});
-
+module.exports = {
+    connect,
+    getAllMovies,
+    getMovie,
+    insertOrUpdateMovie
+};

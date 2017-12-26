@@ -21,7 +21,7 @@ module.exports = {
     MYSQL_USER: 'sql11212380',
     MYSQL_PASSWORD: 'ARJKJBntgp',
     MYSQL_DATABASE: 'sql11212380',
-
+    SQLITE_DIR: '../../resources/imdb-top-250.sqlite',
 
     // recommendation engine
     NOT_FOUND_INDEX: -1,

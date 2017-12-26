@@ -22,31 +22,12 @@ function getAllWatchedMovies() {
 
 
 function addOrUpdateMovie(name, year, user_rating) {
-    let today = new Date().toDateString();// TODO:fix
-    return getMovie(name, year)
-        .then(movie => {
-            if (_.isEmpty(movie)) {
-                return insertMovie(name, year, user_rating, today);
-            } else {
-                return updateMovie(movie, user_rating, today);
-            }
+    let today = new Date();// TODO:fix
+    return mySqlConnector.insertOrUpdateMovie (name, year, user_rating, today)
+        .catch(error => {
+            logger.error("Error occurred while inserting or updating movie: %s", error);
+            return Promise.reject(error);
         })
-}
-
-function insertMovie(name, year, user_rating, date) {
-    return mySqlConnector.insertMovie(name, year, user_rating, date)
-        .catch(error => {
-            logger.error("Error occurred while inserting movie: %s", error);
-            return Promise.reject(error);
-        });
-}
-
-function updateMovie(movie, date, user_rating) {
-    return mySqlConnector.updateMovie(movie, user_rating || movie.user_rating, date)
-        .catch(error => {
-            logger.error("Error occurred while inserting movie: %s", error);
-            return Promise.reject(error);
-        });
 }
 
 module.exports = {

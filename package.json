@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "RESTful API. Manages movies that the user watched, saves history, returns movies recommendations.",
   "main": "src/app.js",
-  "scripts": {
-    "test": "test"
+  "bin": {
+    "moviesmanagementservice": "./src/index/js"
   },
   "repository": {
     "type": "git",
@@ -18,19 +18,17 @@
   "homepage": "https://github.com/shirleyar/MoviesManagementService#readme",
   "dependencies": {
     "all-subsets": "^1.0.0",
+    "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "bunyan": "^1.8.12",
-    "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.2",
     "imdb-api": "^3.1.2",
-    "imdb-list": "^1.0.1",
-    "imdb-top250-node": "^1.0.1",
-    "knex": "^0.14.2",
     "lodash": "^4.17.4",
     "mysql": "^2.15.0",
+    "node-sqlite": "0.0.2-security",
     "request": "^2.83.0",
-    "serverless": "^1.25.0",
     "sqlite": "^2.9.0",
+    "sqlite3": "^3.1.13",
     "webtask-tools": "^3.2.0"
   }
 }

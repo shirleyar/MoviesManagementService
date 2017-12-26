@@ -1,10 +1,7 @@
 'use strict';
 
 module.exports = {
-    INSERT_TOP_250: "INSERT INTO ?.Top_250_Movies (`rating_imdb`, `name`, `year`) VALUES (?, ?, ?);",
-    // SELECT_TOP_250_BY_NAME_YEAR: ,
-    // SELECT_TOP_250_ALL: ,
-
-    INSERT_GENRES: "INSERT INTO `?`.`Genres` (`genre_id`, `genre_name`) VALUES (NULL, NULL);"
-
+    INSERT_UPDATE: 'INSERT INTO sql11212380.Watched_Movies (name, year, user_rating, times_watched, date_last_watched) VALUES (?, ?, ?, ? ,?) ON DUPLICATE KEY UPDATE user_rating=?, times_watched=times_watched+1, date_last_watched= ?',
+    SELECT_MOVIE: 'SELECT * FROM sql11212380.Watched_Movies WHERE name LIKE ? AND year = ?;',
+    SELECT_ALL: "SELECT * FROM sql11212380.Watched_Movies;"
 };

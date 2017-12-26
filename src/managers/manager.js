@@ -1,6 +1,7 @@
 'use strict';
 
 const movieModel = require('../models/Movie-model'),
+    Promise = require('bluebird'),
     watchedMovieModel = require('../models/watchedMovie-model'),
     imdbTool = require('../helpers/imdb-tool'),
     movieRecommendationTool = require('../models/MovieReccommendationEngine'),
@@ -21,18 +22,22 @@ function insertOrUpdateWatchedMovie(name, year, user_rating) {
 }
 
 function getAllWatchedMovies() {
+    let movies =[];
+    let promiseArray =[];
     return watchedMovieModel.getAllWatchedMovies()
         .then(watchedMovies => {
-            let promiseArray = watchedMovies.map(watchedMovie => {
-                return movieModel(watchedMovie.name, watchedMovie.year, watchedMovie.user_rating, watchedMovie.times_watched, watchedMovie.date_last_watched)
+            watchedMovies.forEach(watchedMovie=>{
+               promiseArray.push(movieModel(watchedMovie))
             });
-            Promise.all(promiseArray)
+            return Promise.all(promiseArray)
+        }).then(results=>{
+                    console.log(results);
+                })
                 .catch(error => {
                     logger.error("Error occurred while getting all watched movies: %j", error);
                     return Promise.reject(errorBuilder(500, "Internal Error", "Error while getting all watched movies"))
                 });
-        })
-}
+        }
 
 function getWatchedMovie(name, year) {
     return watchedMovieModel.getMovie(name, year)
