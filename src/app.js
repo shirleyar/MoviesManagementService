@@ -1,4 +1,3 @@
-'use strict';
 
 const Express = require('express'),
     Webtask = require('webtask-tools'),
@@ -30,5 +29,20 @@ mysqlConnector.connect()
 
 // app.listen(3000);
 
-module.exports = Webtask.fromExpress(app);
+const task = Webtask.fromExpress(app);
 // module.exports = app;
+
+const sandbox = require('sandboxjs'),
+    constants = require('./helpers/consts'),
+    assert = require('assert'),
+    util= require('util');
+
+const profile = sandbox.fromToken(constants.WT_TOKEN);
+const code = util.format("module.exports = %s", task);
+// profile.create(code,  { secrets: { auth0: 'rocks' } }, function (err, webtask) {
+//     assert.ifError(err);
+//     console.log(webtask.url)
+// });
+profile.run(code, function(err,res,body){
+    assert.ifError(err);
+});
